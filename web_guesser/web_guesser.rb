@@ -6,12 +6,18 @@ require 'sinatra/reloader'
 
 get '/' do
   guess = params['guess']
-  if guess != ''
+  cheat_mode = params['cheat']
+
+  if guess != nil
     message = check_guess(guess)
     @@guess_count -= 1
     message += "<br>#{@@guess_count} guesses remaining."
   else
     message = 'Make a guess!'
+  end
+
+  if cheat_mode == 'true'
+    message += "<br>CHEAT MODE: #{@@random_number}"
   end
 
   if @@random_number == guess.to_i || @@guess_count == 0
